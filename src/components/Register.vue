@@ -102,7 +102,8 @@ export default {
                     email: '',
                     password: ''
                 },
-                ifSuccessful: false
+                ifSuccessful: false,
+				ifUnsuccessful: false
             };
         },
          validations: {
