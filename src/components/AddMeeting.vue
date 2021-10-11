@@ -207,8 +207,10 @@
                 <label for="desc">Description</label>
                 <textarea id="desc" v-model="meetingDetails.description" ></textarea>
                 <label for="email">Email ID of attendees OR Team's ID</label>
-                <input list="emailid" type="text" id="email" v-model="emaill" @change="attendee(emaill)" >
-                <!--  <datalist id="emailid"> v-for="user in this.meetingDetails.attendees" :key="user.id"-->
+                <input list="users" type="email" id="email" v-model="emaill" @change="attendee(emaill)" >
+                <datalist id="users" >
+                    <option v-for="user in userEmailList" :key="user.id">{{user.email}}</option>
+                </datalist>
                 <span class="badge" v-for="user in meetingDetails.attendees" :key="user.id" >
                     {{user.email}}</span>
                 <small>Use comma to seperate the Email ID or Team ID ~ use @ for Team ID</small>
@@ -224,6 +226,7 @@
 <script>
 import {  required } from 'vuelidate/lib/validators';
 import { addMeetings } from '@/services/meetings';
+import {getUsers} from '@/services/users';
 
 export default {
     name: 'AddMeetings',
@@ -245,7 +248,7 @@ export default {
                 description: '',
                 attendees: []
             },
-            userlist:[],
+            userEmailList:[],
             emaill: ' '
         }
     },
@@ -290,6 +293,18 @@ export default {
             shouldAppendErrorClass( field ) {
                 return field.$error;
             }
+    },
+    async created() {
+        try {
+            this.status = 'Loaded';
+            const data = await getUsers();        
+            this.userEmailList = data;            
+            return this.userEmailList;
+        } catch (error) {
+            this.status = "Error";
+            this.error = error;
+            console.error(error);
+        }
     }
 };
 </script>
