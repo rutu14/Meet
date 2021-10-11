@@ -7,6 +7,11 @@
 					<template v-slot:body><br/>Go Back to <router-link :to="`/`"> Login Page </router-link> to sign in.</template>
 				</Alert>
 			</div>
+			<div  v-show="ifUnsuccessful">
+				<Alert theme="danger">
+					<template v-slot:heading><span>Email already exists</span></template>
+				</Alert>
+			</div>
 			<div class="wrap-login ">
 				<form class="register-form">
 					<span class="login-form-title" >Register</span>
@@ -140,6 +145,9 @@ export default {
                 }catch (error) {
 					this.status = "ERROR";
 					this.error = error;
+					if ( error.response.status === 409  ){
+							this.ifUnsuccessful = true;
+						}
 				}
 			},
 			shouldAppendValidClass( field ) {
