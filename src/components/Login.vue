@@ -1,6 +1,6 @@
 <template>
 <div class="limiter">
-		<div class="container-login" >
+		<div class="container-login justify-content-around flex-column" >
 			<div  v-show="ifUnsuccessful">
 				<Alert theme="danger">
 					<template v-slot:heading><span>Credentials don't match</span></template>
@@ -89,10 +89,8 @@ export default {
 						this.$router.push( { name: 'calendar' } );
 						} )
 					.catch( error => {
-						alert(error);
-						console.log(error)
 						// this.errorStatus = error.data.status;'Request failed with status code 401'
-						if ( error.status === 401  ){
+						if ( error.response.status === 401  ){
 							this.ifUnsuccessful = true;
 						}
 					});

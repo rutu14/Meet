@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from '@/config';
-// import { successHandler, errorHandler } from './helper';
 
 export const login = ( loginDetails ) => {
     return axios.post( `${config.apiBaseUrl}/auth/login`,
